@@ -1,0 +1,548 @@
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer"
+import { vsDark, nightOwl, CodeSurferTheme  } from "@code-surfer/themes"
+import webdriver_1 from "./assets/webdriver_1.png"
+import id from "./assets/id.png"
+import className from "./assets/classname.png"
+import name from "./assets/name.png"
+import tagname from "./assets/tagname.png"
+import projectStructure from "./assets/project_structure.png"
+import ide from "./assets/ide.png"
+import pageObjects from "./assets/page_objects.png"
+import pageObjectsElements from "./assets/page_objects_elements_2.png"
+import Layout from './Layout'
+import "prismjs/components/prism-kotlin"
+import {
+  Image,
+  Steps
+} from 'mdx-deck'
+
+
+
+export const theme = vsDark;
+
+
+<CodeSurfer>
+
+```html title="Selenium"
+There are 3 components:
+- Selenium WebDriver
+- Selenium IDE
+- Selenium Grid
+```
+
+</CodeSurfer>
+
+---
+
+### Selenium Webdriver - How it works
+
+<img style={{height: 600, width: 800}} src={webdriver_1}/>
+
+---
+
+<CodeSurfer>
+
+```html title="Selenium Webdriver(s)"
+Implementations of Web Driver:
+- Chrome driver
+- Opera driver
+- Gecko driver (firefox)
+```
+
+</CodeSurfer>
+
+---
+
+
+### Selenium IDE
+
+<img style={{height: 700, width: 1000}} src={ide}/>
+<div style={{position: 'absolute', left: 50, width: 350}}>
+    <div>- Browser extension</div>
+    <div>- Makes it possible to record and playback test steps in the browser.</div>
+</div>
+
+---
+
+<CodeSurfer>
+
+```html title="Selenium Grid"
+- Can be used to speed up execution of tests by using multiple machines to run tests in parallel.
+- Can be used to run tests against multiple runtime environments, e.g. different browsers at the same time.
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Selenium example"
+
+    fun seleniumTest() {
+        System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe")
+        val driver: WebDriver = FirefoxDriver()
+        val baseUrl = "https://google.com/ncr"
+
+        driver.get(baseUrl)
+
+        val element = driver.findElement(By.name("q"))
+        element.sendKeys("selenium")
+        element.sendKeys(Keys.ENTER)
+
+        val links = driver.findElements(By.cssSelector("#res .g"))
+        assertTrue(links.size > 5)
+        assertTrue(links.any { link -> link.text == "concise ui tests in Java" })
+
+        driver.close()
+    }
+```
+
+```diff 3 title="Specify webdriver implementation path"
+
+```
+
+```diff 4:7 title="Use driver to open page"
+
+```
+
+```diff 9 title="Find DOM Element"
+
+```
+
+```diff 10:11 title="Fill input with text"
+
+```
+
+```diff 13:15 title="Check results"
+
+```
+
+```diff 17 title="Close webdriver instance"
+
+```
+
+</CodeSurfer>
+
+---
+
+### 
+
+---
+
+<Layout>
+
+<CodeSurferColumns sizes={[1100,0]}>
+
+<Step>
+
+```kotlin title="Searching for DOM elements with Selenium" subtitle="Element tag name"
+driver.findElement(By.tagName("input"))
+```
+
+<div style={{position: 'absolute', left: "75vh", bottom: "40vh"}}>
+    <img style={{width: '100%', height: '100%'}}  src={tagname}/>
+</div>
+
+</Step>
+
+<Step style={{width: '100%', height: '100%'}}>
+
+```kotlin title="Searching for DOM elements with Selenium" subtitle="Element CSS class"
+driver.findElement(By.tagName("input"))
+driver.findElement(By.className("text-container"))
+```
+
+<div div style={{position: 'absolute', left: "75vh", bottom: "40vh"}}>
+<img style={{width: '100%', height: '100%'}} src={className}/>
+</div>
+
+</Step>
+
+<Step>
+
+```kotlin title="Searching for DOM elements with Selenium" subtitle="Element ID"
+driver.findElement(By.tagName("input"))
+driver.findElement(By.className("text-container"))
+driver.findElement(By.id("user-link"))
+```
+
+<div div style={{position: 'absolute', left: "75vh", bottom: "40vh"}}>
+<img style={{width: '100%', height: '100%'}} src={id}/>
+</div>
+</Step>
+
+<Step>
+
+```kotlin title="Searching for DOM elements with Selenium" subtitle="Element name"
+driver.findElement(By.tagName("input"))
+driver.findElement(By.className("text-container"))
+driver.findElement(By.id("user-link"))
+driver.findElement(By.name("username"))
+```
+
+<div div style={{position: 'absolute', left: "75vh", bottom: "40vh"}}>
+<img style={{width: '100%', height: '100%'}} src={name}/>
+</div>
+</Step>
+
+<Step>
+
+```kotlin title="Searching for DOM elements with Selenium" subtitle="CSS selector"
+driver.findElement(By.tagName("input"))
+driver.findElement(By.className("text-container"))
+driver.findElement(By.id("user-link"))
+driver.findElement(By.name("username"))
+driver.findElement(By.cssSelector(".text-container > input[name='username']"))
+```
+
+<div>
+</div>
+</Step>
+
+</CodeSurferColumns>
+
+</Layout>
+
+---
+
+### Selenide
+
+<Steps>
+
+- Uses Selenium 
+- Makes writing tests easier
+- Results in shorter code
+
+</Steps>
+
+---
+
+### 
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Selenide - key differences" subtitle="Contains assertions"
+ element("#topic").should(appear)
+ element("#topic").shouldBe(visible)
+ element("#topic").should(disappear)
+ element("h1").shouldHave(text("Hello"))
+ element(".message").shouldNotHave(text("Wait for loading..."))
+ element(".password").shouldNotHave(cssClass("errorField"))
+ element(".error").should(disappear)
+
+ elements("#tr").shouldHave(sizeLessThan(10))
+ elements("#tr").shouldBe(empty)
+```
+
+
+```kotlin title="Selenide - key differences" subtitle="Provides explicit waits in its api"
+element(By.name("q")).waitUntil(appears, 5000) // wait 5s 
+element(By.name("q")).should(appear) // this one also waits, with default timeout
+```
+
+```kotlin title="Selenide - key differences" subtitle="Handles WebDriver automatically"
+// from Selenide.java
+fun open() {
+    WebDriverRunner.getSelenideDriver().open()
+}
+```
+
+```kotlin title="Selenide - key differences" subtitle="Selenide configuration"
+Configuration.browser = "chrome"
+Configuration.baseUrl = "http://localhost:9000"
+Configuration.headless = true
+Configuration.timeout = 5000
+Configuration.browserVersion = "72"
+```
+
+</CodeSurfer>
+
+---
+
+### 
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```kotlin title="Selenium" subtitle="Open a page"
+System.setProperty(
+    "webdriver.gecko.driver",
+     "C:\\geckodriver.exe"
+)
+val driver: WebDriver = FirefoxDriver()
+val baseUrl = "https://google.com/ncr"
+driver.get(baseUrl)
+```
+
+```kotlin title="Selenide" subtitle="Open a page"
+open("https://google.com/ncr")
+```
+
+</Step>
+
+<Step>
+
+```kotlin title="Selenium" subtitle="Click on element"
+driver.findElement(By.id(“#submit”)).click()
+```
+
+```kotlin title="Selenide" subtitle="Click on element"
+element(“#submit”).click();
+```
+
+</Step>
+<Step>
+
+```kotlin title="Selenium" subtitle="Shutdown a browser"
+driver.close()
+```
+
+```kotlin title="Selenide" subtitle="Shutdown a browser"
+// nothing
+```
+
+</Step>
+<Step>
+
+```kotlin title="Selenium" subtitle="Reload page"
+ webdriver.navigate().to(webdriver.getCurrentUrl());
+```
+
+```kotlin title="Selenide" subtitle="Reload page"
+refresh()
+```
+
+</Step>
+
+<Step>
+
+```kotlin title="Selenium" subtitle="Assert element has css class"
+ assertTrue(driver.findElement(By.id("customerContainer"))
+    .getAttribute("class").contains("errorField"));
+```
+
+```kotlin title="Selenide" subtitle="Assert element has css class"
+element("#customerContainer").shouldHave(cssClass("errorField"))
+```
+
+</Step>
+
+</CodeSurferColumns >
+
+---
+
+### TestFLO project structure - Overview
+
+<img src={projectStructure}/>
+
+---
+
+### TestFLO project structure - Page Objects
+
+<img src={pageObjects}/>
+
+---
+
+### Page Objects structure
+
+<img src={pageObjectsElements}/>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Page definition for Requirement issue"
+class RequirementIssueViewPage(issueKey: String) : IssueViewPage(issueKey) {
+    companion object {
+        private var TEST_PROGRESS_PANEL_NAME = "Test Progress"
+        private var COVERAGE_PANEL_NAME = "Coverage"
+    }
+
+    private val panelFilterResults: List<PanelFilterResultTableFragment> get() = findAllGlobal(By.cssSelector(".filter-result-panel.panel-copy-pfr"))
+    private val createIssueDialogFragment: CreateIssueDialogFragment get() = findGlobal(By.cssSelector("#create-issue-dialog, #issue-create"))
+
+    fun getTestProgressPanel(): PanelFilterResultTableFragment = getPanel(TEST_PROGRESS_PANEL_NAME)
+    fun getCoveragePanel(): PanelFilterResultTableFragment = getPanel(COVERAGE_PANEL_NAME)
+    fun getPanelsCount(): Int = panelFilterResults.size
+
+    fun createTestPlanWithTestCases(): CreateIssueDialogFragment {
+        openMenu().select(IssueMenuDropDownComponent.MenuAction.CREATE_TEST_PLAN_WITH_TEST_CASES)
+        createIssueDialogFragment.element.shouldBe(visible)
+        return createIssueDialogFragment
+    }
+}
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Test Cases panel definition for Test Plan issue"
+class TestCasesPanelFragment(element: SelenideElement) : PageFragment(element) {
+
+    private val testCaseGroups: List<TestCasesGroupFragment> get() = findAll(className("testCaseGroup"))
+
+    private val filtersFragment: TestCasesPanelFilterFragment get() = find(id("test-cases-panel-quick-filters"))
+
+    fun setStatusFilter(statusName: String) = filtersFragment.toggleStatusFilter(statusName)
+
+    fun getTestCaseKeys(): List<String> = testCaseGroups.flatMap(TestCasesGroupFragment::getTestCaseKeys)
+
+    fun getDefaultGroup(): TestCasesGroupFragment = testCaseGroups.find { it.isDefaultGroup() }!!
+}
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Checkbox Web Element definition"
+open class WebCheckBox(element: SelenideElement) : WebElement(element), CheckBox {
+
+    override fun toggle() {
+        element.click()
+    }
+
+    override fun check() {
+        if (!isChecked()) {
+            toggle()
+        }
+    }
+
+    override fun uncheck() {
+        if (isChecked()) {
+            toggle()
+        }
+    }
+
+    override fun isChecked(): Boolean {
+        return element.isSelected
+    }
+}
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Selenide test example"
+class StepsE2E : SeleniumTest() {
+    @Test
+    fun "when create issue form is submitted with missing required fields then changes made in steps is preserved"() {
+        val createIssuePage = openPage(IssueCreatePage())
+
+        val stepRow = listOf("aaa", "bbb", "ccc")
+        val form = createIssuePage.submitProjectAndIssueType(PROJECT_KEY, "Test Case Template")
+                .setSummary("")
+                .addLastStepRow(stepRow)
+                .submitForm()
+
+        assert(form.hasAnyErrors())
+        assertEquals(listOf(stepRow), form.getSteps())
+    }
+}
+```
+
+```diff 1 title="SeleniumTest base class"
+```
+
+```diff 2 title="Test annotation"
+```
+
+```diff 3 title="Descriptive name of each test"
+```
+
+```diff 12:13 title="Assertions with expected results"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="TestFLO Rest api available in tests"
+object TestFloRestApi {
+    val backdoor = BackdoorApi()
+    val basicSearcher = BasicSearcherApi()
+    val automation = AutomationApi()
+    val tmsRest = TmsRestApi()
+    val displayFields = DisplayFieldsApi()
+    val issuePanelDisplayFields = IssuePanelDisplayFieldsApi()
+    val testPlanIterations = TestPlanIterationsApi()
+    val reports = ReportsApi()
+    val permissions = PermissionsApi()
+    val testRepositoryTree = TestRepositoryTreeApi()
+    val preconditions = PreconditionsApi()
+    val steps = StepsApi()
+    val panelFilter = PanfilterApi()
+    val customTestFlo = CustomTestFloApi
+}
+// Example:
+val stepsFromCreatedIssue = TestFloRestApi.steps.getSteps(testCaseId.toLong())
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```kotlin title="Jira Rest api available in tests"
+object JiraRestApi {
+    val issues = IssuesApi
+    val issueTypes = IssueTypesApi
+    val issueLinks = IssueLinksApi
+    val issueStatuses = IssueStatusesApi
+    val issueChangelogs = IssueChangelogsApi
+    val issuePriorities = IssuePrioritiesApi
+    val customFields = CustomFieldsApi
+    val filters = FiltersApi
+    val workflows = WorkflowsApi
+    val versions = VersionsApi
+    val users = UsersApi
+    val projects = ProjectsApi
+    val projectRoles = ProjectRolesApi
+    val settings = SettingsApi
+    val plugins = PluginsApi
+    val flags = FlagsApi
+    val licenses = LicensesApi
+    val components = ComponentsApi
+    val searcher = SearcherApi
+    val permissionSchemes = PermissionSchemesApi
+    val darkFeatures = DarkFeaturesApi
+}
+
+//example:
+JiraRestApi.workflows.doWorkflowTransition(testCaseKey, TransitionId.openToTest)
+```
+
+</CodeSurfer>
+
+---
+
+### Resources
+
+<Steps>
+
+- Dokumentacja selenium (cała do przeczytania, nie duża): https://www.selenium.dev/documentation/en/
+
+- Dokumentacja Selenide: https://selenide.org/documentation.html
+
+- Selektory CSS: https://www.w3schools.com/cssref/css_selectors.asp
+
+- Opcjonalnie do odpalenia tej prezentacji instalacja Node i Npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+</Steps>

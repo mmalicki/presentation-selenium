@@ -1,0 +1,17 @@
+{
+  "name": "presentation-selenium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "mdx-deck": "^4.1.1",
+    "code-surfer": "3.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "rm -rf dist && mdx-deck build deck.mdx --no-html && mkdir dist && mkdir dist/assets && cp -r ./assets dist/assets/",
+    "start": "mdx-deck deck.mdx"
+  },
+  "author": "",
+  "license": "ISC"
+}
